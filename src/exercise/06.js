@@ -2,6 +2,7 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
+import {useRef} from 'react'
 
 function UsernameForm({onSubmitUsername}) {
   // 🐨 add a submit event handler here (`handleSubmit`).
@@ -10,9 +11,11 @@ function UsernameForm({onSubmitUsername}) {
   // events (which refreshes the page).
   // 📜 https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
 
+  const inputRef = useRef(null)
+
   const handleSubmit = e => {
     e.preventDefault()
-    const inputValue = e.target.elements[0].value
+    const inputValue = inputRef.value
     onSubmitUsername(inputValue)
   }
 
@@ -29,7 +32,7 @@ function UsernameForm({onSubmitUsername}) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="user-name">Username:</label>
-        <input id="user-name" type="text" />
+        <input id="user-name" type="text" ref={inputRef} />
       </div>
       <button type="submit">Submit</button>
     </form>
