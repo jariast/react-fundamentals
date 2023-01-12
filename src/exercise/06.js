@@ -2,6 +2,7 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
+import {useState} from 'react'
 import {useRef} from 'react'
 
 function UsernameForm({onSubmitUsername}) {
@@ -11,12 +12,22 @@ function UsernameForm({onSubmitUsername}) {
   // events (which refreshes the page).
   // 📜 https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
 
-  const inputRef = useRef(null)
+  const [username, setUsername] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleSubmit = e => {
     e.preventDefault()
-    const inputValue = inputRef.value
-    onSubmitUsername(inputValue)
+    onSubmitUsername(username)
+  }
+
+  const handleInputChange = e => {
+    const newValue = e.target.value
+    setUsername(newValue)
+    setErrorMessage(
+      newValue === newValue.toLowerCase()
+        ? ''
+        : 'Input only accepts lower case letters',
+    )
   }
 
   // 🐨 get the value from the username input (using whichever method
@@ -32,9 +43,12 @@ function UsernameForm({onSubmitUsername}) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="user-name">Username:</label>
-        <input id="user-name" type="text" ref={inputRef} />
+        <input onChange={handleInputChange} id="user-name" type="text" />
+        {errorMessage && <p role="alert">{errorMessage}</p>}
       </div>
-      <button type="submit">Submit</button>
+      <button disabled={errorMessage} type="submit">
+        Submit
+      </button>
     </form>
   )
 }
