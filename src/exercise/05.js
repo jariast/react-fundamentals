@@ -33,9 +33,9 @@ const Box = ({children, style, size, ...props}) => {
 
   return (
     <div
-      {...props}
       style={{fontStyle: 'italic', ...style}}
       className={`box ${className}`}
+      {...props}
     >
       {children}
     </div>
